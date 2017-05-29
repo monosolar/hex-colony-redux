@@ -2,8 +2,13 @@ div svg{
     display: block; margin: auto;
 }
 
+.body-style {
+    background: #ecf0f1;
+}
+
 .main-container {
     max-width: 900px;
+    font-family: 'Titillium Web', sans-serif;
 }
 
 .title-label{
@@ -27,9 +32,7 @@ div svg{
     width: 370px; height: 370px;
 }
 
-.section-component {
-    min-width: 450px;
-}
+.section-component {/**/}
 
 .section-header {
     background: #0E3F3F;
@@ -55,7 +58,7 @@ div svg{
 .table-scroll-wrap{
     overflow: auto;
 
-    max-height: 440px;
+    max-height: 435px;
 }
 
 .table-fixed, .table-fixed tbody, .table-fixed tr{

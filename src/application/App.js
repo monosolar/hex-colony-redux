@@ -1,39 +1,44 @@
 import React, { Component } from 'react'
+import Grid  from 'react-bootstrap/lib/Grid';
+import Col  from 'react-bootstrap/lib/Col';
+import Row  from 'react-bootstrap/lib/Row';
 import MapContainer from '../containers/MapContainer'
 import SectionComponent from '../components/SectionComponent'
 import ColoniesListContainer from '../containers/ColoniesListContainer'
 import StatisticContainer from '../containers/StatisticContainer'
 
-
 class App extends Component {
+
+	componentDidMount(){
+		document.body.className="body-style"
+	}
+
 	render() {
 		return(
-			<div className="container main-container">
-
-				<div className="row">
+			<Grid className="main-container">
+				<Row>
 					<p className="title-label">Colonies</p>
 					<hr className="title-hr"/>
-				</div>
+				</Row>
 
-				<div className="row">
-					<div className="col-lg-7" >
+				<Row>
+					<Col lg={7} md={7}>
 						<SectionComponent title="Map" contentComponent={ MapContainer } />
-					</div>
-					<div  className="col-lg-5">
-						<div className="row section-component" >
-							<SectionComponent title="Colonies List" contentComponent={ ColoniesListContainer } />
-						</div>
-					</div>
-				</div>
-				<div className="row">
-					<div className="col-md-6" >
-						<div className="row section-component" >
-							<SectionComponent title="Statistic" contentComponent={ StatisticContainer } />
-						</div>
-					</div>
-					<div className="col-md-6"></div>
-				</div>
-			</div>
+					</Col>
+					<Col lg={5} md={5}>
+						<SectionComponent title="Colonies List" contentComponent={ ColoniesListContainer } />
+					</Col>
+				</Row>
+
+				<Row>
+					<Col lg={6} md={6}>
+						<SectionComponent title="Statistic" contentComponent={ StatisticContainer } />
+					</Col>
+					<Col lg={6} md={6}>
+						<SectionComponent title="Empty"  />
+					</Col>
+				</Row>
+			</Grid>
 		)}
 }
 

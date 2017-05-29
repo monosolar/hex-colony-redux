@@ -31,12 +31,12 @@ export class ColoniesListContainer extends Component {
                             <td>{colony.name}</td>
                             <td><input type="color" value={getNameOfColor(colony.color)} disabled="true"/></td>
                             <td>{colony.speed}ms</td>
+                            <td>{colony.ownCells.length-1} cells</td>
                             <td className="td-delete-hovered">
                                 <div className="colony-entry-delete">
                                     <span className="glyphicon glyphicon-remove"></span>
                                 </div>
                             </td>
-                            <td>{colony.ownCells.length-1} cells</td>
                         </tr>
                     )}
                     </tbody>

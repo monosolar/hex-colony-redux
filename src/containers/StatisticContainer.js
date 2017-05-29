@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getGroupedObject} from '../utils/Utils'
 import { mapColumns, mapRows } from '../consts/MapSizesConsts'
 
+const allTerritory = mapColumns * mapRows;
 export class StatisticContainer extends Component {
     static propTypes = {
         colonies: PropTypes.arrayOf(PropTypes.shape({
@@ -21,32 +22,36 @@ export class StatisticContainer extends Component {
         const groupedByColorObject = getGroupedObject(colonies,"color");
         const colorPopulations = [];
 
-        const allTerritory = mapColumns * mapRows;
         let freeTerritory = allTerritory;
 
         Object.keys( groupedByColorObject ).forEach( key => {
-            const currentColorItem = {color: key, population: 0}
+            const currentColorItem = {
+                color: key,
+                population:  groupedByColorObject[key].reduce((sum, current) => (
+                                sum + current.ownCells.length
+                            ), 0)
+            }
 
-            groupedByColorObject[key].forEach((colony) => {
-
-                currentColorItem.population += colony.ownCells.length;
-            });
             freeTerritory -= currentColorItem.population;
             colorPopulations.push(currentColorItem)
         });
 
-        colorPopulations.sort((a,b) => {
-            return a.population - b.population;
+        colorPopulations.sort((firstItem,secondItem) => {
+            return firstItem.population - secondItem.population
         })
 
         return (
             <div>
                 {colorPopulations.map((colorItem, key) =>
                     <p key={key}>
-                        {colorItem.color} fascinated { parseInt(colorItem.population / allTerritory * 100)}% of territory;
+                        {
+                            colorItem.color.substr(0,1).toUpperCase()+
+                            colorItem.color.substr(1).toLowerCase()+" "
+                        }
+                        fascinated <strong>{ (colorItem.population / allTerritory * 100).toFixed(1)}%</strong> of territory;
                     </p>
                 )}
-                <p>Free territory: { parseInt(freeTerritory / allTerritory * 100)}%</p>
+                <p>Free territory: <strong>{ (freeTerritory / allTerritory * 100).toFixed(1)}%</strong></p>
             </div>
         );
     }

@@ -1,6 +1,6 @@
 export const mapWidth = 420;
 export const mapHeight = 420;
-export const mapColumns = 20;
+export const mapColumns = 27;
 export const mapRows = 25;
 
 export const mapMargin = {

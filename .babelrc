@@ -1,3 +1,17 @@
 {
-	"presets": ["es2015", "stage-0", "react"]
+  "plugins": [],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions", "safari >= 7"],
+          "node": "9.2.0"
+        }
+      }
+    ],
+    "@babel/preset-react",
+    "@babel/preset-stage-0"
+  ],
+  "sourceMaps": "inline"
 }

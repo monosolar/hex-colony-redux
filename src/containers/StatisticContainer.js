@@ -1,66 +1,66 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { getGroupedObject} from '../utils/Utils'
-import { mapColumns, mapRows } from '../consts/MapSizesConsts'
+import React, { Component } from "react";
+import GlobalTypes from "../consts/GlobalTypes"
+
+import { connect } from "react-redux";
+import { getGroupedObject } from "../utils/Utils";
+import { mapColumns, mapRows } from "../consts/MapSizesConsts";
 
 const allTerritory = mapColumns * mapRows;
 export class StatisticContainer extends Component {
-    static propTypes = {
-        colonies: PropTypes.arrayOf(PropTypes.shape({
-            colonyID: PropTypes.number.isRequired,
-            ownCells: PropTypes.array.isRequired,
-            name: PropTypes.string.isRequired,
-            color: PropTypes.string.isRequired,
-            speed: PropTypes.number.isRequired
-        }).isRequired).isRequired
-    }
+  static propTypes = {
+    ...GlobalTypes.colonies,
+  };
 
-    render() {
-        const colonies = this.props.colonies;
-        
-        const groupedByColorObject = getGroupedObject(colonies,"color");
-        const colorPopulations = [];
+  render() {
+    const colonies = this.props.colonies;
 
-        let freeTerritory = allTerritory;
+    const groupedByColorObject = getGroupedObject(colonies, "color");
+    const colorPopulations = [];
 
-        Object.keys( groupedByColorObject ).forEach( key => {
-            const currentColorItem = {
-                color: key,
-                population:  groupedByColorObject[key].reduce((sum, current) => (
-                                sum + current.ownCells.length
-                            ), 0)
-            }
+    let freeTerritory = allTerritory;
 
-            freeTerritory -= currentColorItem.population;
-            colorPopulations.push(currentColorItem)
-        });
+    Object.keys(groupedByColorObject).forEach(key => {
+      const currentColorItem = {
+        color: key,
+        population: groupedByColorObject[key].reduce(
+          (sum, current) => sum + current.ownCells.length,
+          0
+        )
+      };
 
-        colorPopulations.sort((firstItem,secondItem) => {
-            return firstItem.population - secondItem.population
-        })
+      freeTerritory -= currentColorItem.population;
+      colorPopulations.push(currentColorItem);
+    });
 
-        return (
-            <div>
-                {colorPopulations.map((colorItem, key) =>
-                    <p key={key}>
-                        {
-                            colorItem.color.substr(0,1).toUpperCase()+
-                            colorItem.color.substr(1).toLowerCase()+" "
-                        }
-                        fascinated <strong>{ (colorItem.population / allTerritory * 100).toFixed(1)}%</strong> of territory;
-                    </p>
-                )}
-                <p>Free territory: <strong>{ (freeTerritory / allTerritory * 100).toFixed(1)}%</strong></p>
-            </div>
-        );
-    }
+    colorPopulations.sort((firstItem, secondItem) => {
+      return firstItem.population - secondItem.population;
+    });
+
+    return (
+      <div>
+        {colorPopulations.map((colorItem, key) => (
+          <p key={key}>
+            {colorItem.color.substr(0, 1).toUpperCase() +
+              colorItem.color.substr(1).toLowerCase() +
+              " "}
+            fascinated{" "}
+            <strong>
+              {(colorItem.population / allTerritory * 100).toFixed(1)}%
+            </strong>{" "}
+            of territory;
+          </p>
+        ))}
+        <p>
+          Free territory:{" "}
+          <strong>{(freeTerritory / allTerritory * 100).toFixed(1)}%</strong>
+        </p>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = (state) => ({
-    colonies: state.colonies
-   
-})
+const mapStateToProps = state => ({
+  colonies: state.colonies
+});
 
-const ConnectedColoniesList = connect(mapStateToProps)(StatisticContainer)
-export default ConnectedColoniesList
+export default connect(mapStateToProps)(StatisticContainer);
